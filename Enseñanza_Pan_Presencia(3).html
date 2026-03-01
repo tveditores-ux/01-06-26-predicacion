@@ -1,0 +1,233 @@
+<html lang="es"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Libreta de Enseñanza: El Pan de la Presencia</title>
+    <style>
+        :root {
+            --bg-color: #f9f9f7; 
+            --text-color: #2f3640;
+            --accent-color: #2980b9; 
+            --bible-red: #b33939; 
+            --sub-color: #27ae60; 
+            --border-color: #dcdde1;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.8; 
+            color: var(--text-color);
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0;
+            background-color: var(--bg-color);
+        }
+
+        .toolbar {
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(5px);
+            padding: 15px 30px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        button {
+            padding: 10px 18px;
+            cursor: pointer;
+            background: #ffffff;
+            color: var(--accent-color);
+            border: 1px solid var(--accent-color);
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        button:hover {
+            background: var(--accent-color);
+            color: white;
+            box-shadow: 0 4px 10px rgba(41, 128, 185, 0.2);
+        }
+
+        .btn-save {
+            background: var(--accent-color) !important;
+            color: white !important;
+            border: none;
+        }
+
+        .timer {
+            font-weight: 400;
+            font-family: 'Courier New', monospace;
+            font-size: 1.4rem;
+            color: #7f8c8d;
+            margin-left: auto;
+            letter-spacing: 1px;
+        }
+
+        .notebook {
+            background: white;
+            padding: 60px 80px;
+            margin: 30px auto;
+            border-radius: 4px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.03);
+            min-height: 100vh;
+            outline: none;
+            border: 1px solid #f1f1f1;
+        }
+
+        h1 { 
+            color: var(--accent-color); 
+            font-weight: 300; 
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        h2, h3 { 
+            color: var(--sub-color); 
+            margin-top: 45px; 
+            font-weight: 500;
+            border-left: 4px solid var(--sub-color);
+            padding-left: 15px;
+        }
+
+        .ntv-biblia {
+            color: var(--bible-red);
+            font-weight: 600;
+            background-color: rgba(179, 57, 57, 0.03);
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+
+        hr {
+            border: 0;
+            border-top: 1px solid #eee;
+            margin: 50px 0;
+        }
+
+        .notebook:focus {
+            border-color: var(--accent-color);
+        }
+
+        @media (max-width: 600px) {
+            .notebook { padding: 30px; }
+            .toolbar { padding: 10px; }
+        }
+
+        @media print {
+            .toolbar { display: none; }
+            body { background: white; }
+            .notebook { box-shadow: none; border: none; padding: 0; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="toolbar">
+    <button onclick="changeSize(2)">Aumentar Fuente</button>
+    <button onclick="changeSize(-2)">Disminuir</button>
+    <button onclick="startTimer()">Iniciar Tiempo</button>
+    <button onclick="stopTimer()">Pausa</button>
+    <button onclick="resetTimer()">Reset</button>
+    <button onclick="saveAndExport()" class="btn-save">💾 Guardar Versión Final</button>
+    <div class="timer" id="display">00:00:00</div>
+</div>
+
+<div class="notebook" id="contenido" contenteditable="true" style="font-size: 25px;">
+    <h1><span class="ntv-biblia">Buena Noticia:&nbsp;</span></h1><h3><b data-path-to-node="9,0" data-index-in-node="0">Hebreos 8:12</b>
+«Y perdonaré sus maldades, y nunca más me acordaré de sus pecados.»</h3><h1><br></h1><h1>Título: El Pan de la Presencia y el Descanso&nbsp;</h1>
+    
+    <p>La escena comienza en un día de Shabat. Jesús y sus discípulos caminan por los sembrados; ellos tienen hambre y comienzan a arrancar espigas para comer. <span class="ntv-biblia">«Un día de descanso, mientras Jesús caminaba por los campos de trigo, sus discípulos comenzaron a arrancar espigas para comer» (Marcos 2:23, NTV)</span>. Inmediatamente, surge el cuestionamiento de los fariseos: para ellos, el ritual y la norma del día de descanso eran superiores a la necesidad del hombre. <span class="ntv-biblia">«¡Mira! ¿Por qué rompen la ley al cosechar trigo hoy, en el día de descanso?» (Marcos 2:24, NTV)</span>.</p>
+
+    <p>Ante esto, Jesús lanza un puente hacia el pasado y cita a una figura que ellos admiraban profundamente: David. <span class="ntv-biblia">«¿No han leído nunca en las Escrituras lo que hizo David cuando él y sus compañeros tuvieron hambre?» (Marcos 2:25, NTV)</span>. Él les recuerda aquel momento en que David, huyendo de sus problemas, solo y exhausto, llegó al Tabernáculo ante el sacerdote Ahimelec (1 Samuel 21). David no buscaba un ritual; buscaba refugio.</p>
+
+    <h3>1. El significado del Pan de la Proposición</h3>
+    <p>En ese momento, el único alimento disponible era el Pan de la Proposición o "Pan de la Presencia" (Lechem HaPanim). Según Levítico 24, este pan representaba dos realidades fundamentales:</p>
+
+    <ul>
+        <li><strong>Presencia:</strong> Eran doce panes hechos de cuatro kilos de harina cada uno, colocados sobre una mesa de oro ante Dios. <span class="ntv-biblia">«Usa harina refinada para hornear doce panes planos... cada pan debe ser de cuatro kilos» (Levítico 24:5, NTV)</span>.</li>
+        <li><strong>Descanso:</strong> Estos panes se renovaban precisamente cada Shabat. Eran el símbolo de que la provisión de Dios no nace del esfuerzo humano, sino de Su fidelidad constante. <span class="ntv-biblia">«Cada día de descanso, se deben poner panes frescos delante del Señor continuamente» (Levítico 24:8, NTV)</span>.</li>
+    </ul>
+
+    <p>Este era un "pan sacerdotal". Levítico establece que solo los sacerdotes podían comerlo por estatuto perpetuo. <span class="ntv-biblia">«Los panes pertenecerán a Aarón y a sus descendientes, quienes deben comerlos en un lugar sagrado» (Levítico 24:9, NTV)</span>. Sin embargo, David lo recibió. Aquí es donde la historia se conecta con nosotros: Pedro, en su primera carta (2:5, 9), revela que ahora nosotros somos una comunidad de sacerdotes. <span class="ntv-biblia">«Ustedes son sacerdotes del Rey, una nación santa, propiedad exclusiva de Dios» (1 Pedro 2:9, NTV)</span>. Esto significa que hoy, todo aquel que cree en Cristo tiene acceso legal y espiritual a ese Pan, a esa Presencia y a ese Descanso.</p>
+
+    <h3>2. Jesucristo: su presencia trae descanso</h3>
+    <p>Cuando conectamos esto con Jesús, el mensaje cobra vida. En Juan 6:51, Jesús declara:&nbsp;<span class="ntv-biblia">«Yo soy el pan vivo que descendió del cielo. Todo el que coma de este pan vivirá para siempre» (Juan 6:51, NTV)</span>. Jesús es el cumplimiento de lo que aquel pan del Tabernáculo solo señalaba.</p>
+
+    <ul>
+        <li>Él es Emmanuel (Dios con nosotros): La Presencia que nunca nos abandona. <span class="ntv-biblia">«...y lo llamarán Emanuel, que significa "Dios con nosotros"» (Mateo 1:23, NTV)</span>.</li>
+        <li>Él es el Shabat Eterno: El descanso que no depende de un calendario.</li>
+    </ul>
+
+    <p>Cuando Jesús dijo:&nbsp;&nbsp;<span class="ntv-biblia">«Vengan a mí todos los que están cansados y llevan cargas pesadas, y yo les daré descanso» (Mateo 11:28, NTV)</span>, no estaba ofreciendo un día libre, estaba ofreciéndose a Sí mismo como el destino final de nuestra fatiga.</p>
+
+    <h3>3. De la Necesidad de David a Nuestra Realidad</h3>
+    <p>Si volvemos a la historia de David, vemos a un hombre perseguido por el rey, ungido pero aún no entronizado, experimentando la crudeza de la soledad y el vacío. Esa desprotección y ese hambre son sombras de lo que muchas personas viven hoy.</p>
+    
+    <p>Más allá del hambre física, el mundo padece un hambre de presencia; un vacío existencial (ejemplos)que genera una desconexión profunda. Pero la enseñanza de Jesús es clara: Dios nos mira desde nuestra necesidad, no desde nuestro cumplimiento ritual. Jesús corrigió la visión religiosa al decir que el descanso fue hecho por causa del hombre, y no el hombre por causa del descanso. <span class="ntv-biblia">«El día de descanso se hizo para satisfacer las necesidades de la gente, y no la gente para satisfacer los requisitos del día de descanso» (Marcos 2:27, NTV)</span>. Esto significa que las cosas creadas por Dios tienen como fin último suplir la necesidad humana según Su eterno conocimiento y amor.</p>
+
+    <h3>4. Conclusión:&nbsp;</h3>
+    <p>Al estar en Cristo, somos conectados con el "Pan Sagrado". Esto implica dos promesas inquebrantables para tu cotidianidad:</p>
+
+    <ul>
+        <li><strong>Nunca más estarás solo:</strong> Él es tu Emmanuel, prometiendo estar contigo todos los días hasta el fin del mundo. <span class="ntv-biblia">«Y tengan por seguro esto: que estoy con ustedes siempre, hasta el fin de los tiempos» (Mateo 28:20, NTV)</span>.</li>
+        <li><strong>Habitas en el Descanso:</strong> Tu descanso no es un lunes, un sábado o un domingo. Tu descanso no es una fecha en el calendario; es una Persona en la que habitas y que habita en ti. <span class="ntv-biblia">«Pues todos los que han entrado en el descanso de Dios han descansado de su trabajo, tal como Dios descansó del suyo después de la creación» (Hebreos 4:10, NTV)</span>.</li>
+    </ul>
+
+    <p>No importa si vienes huyendo, si te sientes solo o si traes un hambre que nada en este mundo ha podido saciar. Para Dios, tu necesidad es una prioridad. Hoy puedes soltar el esfuerzo de "intentar llegar" y simplemente descansar en Aquel que ya llegó a ti para ser tu provisión eterna.</p>
+
+    <hr>
+    <p style="color: #bdc3c7; font-style: italic;">Notas y apuntes adicionales: (Haz clic aquí para escribir...)</p>
+    <p></p>
+</div>
+
+<script>
+    let fontSize = 19;
+    function changeSize(delta) {
+        fontSize += delta;
+        document.getElementById('contenido').style.fontSize = fontSize + 'px';
+    }
+
+    let startTime, elapsedTime = 0, timerInterval;
+    function timeToString(time) {
+        let diffInHrs = time / 3600000;
+        let hh = Math.floor(diffInHrs);
+        let diffInMin = (diffInHrs - hh) * 60;
+        let mm = Math.floor(diffInMin);
+        let diffInSec = (diffInMin - mm) * 60;
+        let ss = Math.floor(diffInSec);
+        return `${hh.toString().padStart(2, "0")}:${mm.toString().padStart(2, "0")}:${ss.toString().padStart(2, "0")}`;
+    }
+    function startTimer() {
+        if (!timerInterval) {
+            startTime = Date.now() - elapsedTime;
+            timerInterval = setInterval(() => {
+                elapsedTime = Date.now() - startTime;
+                document.getElementById("display").innerHTML = timeToString(elapsedTime);
+            }, 1000);
+        }
+    }
+    function stopTimer() { clearInterval(timerInterval); timerInterval = null; }
+    function resetTimer() {
+        stopTimer();
+        elapsedTime = 0;
+        document.getElementById("display").innerHTML = "00:00:00";
+    }
+
+    function saveAndExport() {
+        const content = document.documentElement.outerHTML;
+        const blob = new Blob([content], { type: 'text/html' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'Enseñanza_Pan_Presencia.html';
+        a.click();
+    }
+</script>
+
+
+</body></html>
