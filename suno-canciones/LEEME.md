@@ -6,4 +6,5 @@
    - `info.md` — título, fecha, modelo, estilo, estilos excluidos, duración, enlaces, letra
    - `letra_prompt.txt` — la letra/prompt tal cual
    - `raw.json` — todos los datos originales de Suno
-   y un `indice.csv` con todas las canciones (abre en Excel/Sheets).
+   un `indice.csv` con todas las canciones (abre en Excel/Sheets)
+   y `reproductor.html`: ábrelo en el navegador para escuchar todas las canciones, buscar y ver letras.

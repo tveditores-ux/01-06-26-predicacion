@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mis canciones</title>
+<style>
+:root{--bg:#f6f4ef;--card:#fff;--ink:#1d1b18;--muted:#6b665d;--line:#e4dfd5;--accent:#b4572e;--accent-ink:#fff}
+@media (prefers-color-scheme:dark){:root{--bg:#141311;--card:#1e1c19;--ink:#efebe4;--muted:#a39d92;--line:#2f2c27;--accent:#e08355;--accent-ink:#1a0f09}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;padding-bottom:110px}
+header{max-width:860px;margin:0 auto;padding:28px 16px 8px}
+h1{margin:0 0 4px;font-size:1.7rem}
+.sub{color:var(--muted);margin:0 0 16px}
+.tools{display:flex;gap:8px;flex-wrap:wrap}
+input,select{flex:1 1 220px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);font:inherit}
+select{flex:0 1 180px}
+main{max-width:860px;margin:0 auto;padding:8px 16px}
+.song{display:grid;grid-template-columns:72px 1fr auto;gap:14px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px;margin:10px 0}
+.song.playing{border-color:var(--accent)}
+.cover{width:72px;height:72px;border-radius:10px;object-fit:cover;background:var(--line)}
+.title{font-weight:600;margin:0;overflow-wrap:anywhere}
+.meta{color:var(--muted);font-size:.85rem;margin:2px 0 0}
+.tags{font-size:.85rem;margin:4px 0 0;overflow-wrap:anywhere}
+.play{width:46px;height:46px;border-radius:50%;border:0;background:var(--accent);color:var(--accent-ink);font-size:1.1rem;cursor:pointer}
+.play:disabled{opacity:.35;cursor:not-allowed}
+details{grid-column:1/-1;border-top:1px solid var(--line);padding-top:8px}
+summary{cursor:pointer;color:var(--muted);font-size:.9rem}
+pre{white-space:pre-wrap;font:inherit;font-size:.95rem;margin:8px 0 0}
+.links a{color:var(--accent);font-size:.85rem;margin-right:12px}
+footer.player{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);padding:10px 16px}
+footer .in{max-width:860px;margin:0 auto}
+#now{font-size:.9rem;margin:0 0 6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+audio{width:100%}
+.empty{color:var(--muted);text-align:center;padding:40px 0}
+@media (max-width:520px){.song{grid-template-columns:56px 1fr auto}.cover{width:56px;height:56px}}
+</style>
+</head>
+<body>
+<header>
+  <h1>Mis canciones</h1>
+  <p class="sub" id="count"></p>
+  <div class="tools">
+    <input id="q" type="search" placeholder="Buscar por título, estilo o letra…">
+    <select id="sort">
+      <option value="new">Más recientes</option>
+      <option value="old">Más antiguas</option>
+      <option value="plays">Más escuchadas</option>
+      <option value="title">Título A–Z</option>
+    </select>
+  </div>
+</header>
+<main id="list"></main>
+<footer class="player"><div class="in">
+  <p id="now">Elige una canción</p>
+  <audio id="audio" controls preload="none"></audio>
+</div></footer>
+<script>
+const SONGS = /*__DATOS__*/[];
+const $ = s => document.querySelector(s);
+const list = $("#list"), audio = $("#audio"), now = $("#now");
+let view = [], current = -1;
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fecha = d => d ? new Date(d).toLocaleDateString("es", {year:"numeric",month:"short",day:"numeric"}) : "";
+const dur = s => s ? `${Math.floor(s/60)}:${String(Math.round(s%60)).padStart(2,"0")}` : "";
+
+function render(){
+  const q = $("#q").value.trim().toLowerCase();
+  view = SONGS.filter(s => !q || [s.titulo,s.estilo,s.letra,s.descripcion].join(" ").toLowerCase().includes(q));
+  const k = $("#sort").value;
+  view.sort((a,b) => k==="old" ? (a.fecha||"").localeCompare(b.fecha||"")
+    : k==="plays" ? (b.reproducciones||0)-(a.reproducciones||0)
+    : k==="title" ? a.titulo.localeCompare(b.titulo,"es")
+    : (b.fecha||"").localeCompare(a.fecha||""));
+  $("#count").textContent = `${view.length} de ${SONGS.length} canciones`;
+  if(!view.length){ list.innerHTML = '<p class="empty">No hay canciones que coincidan.</p>'; return; }
+  list.innerHTML = view.map((s,i) => `
+    <article class="song${audio.dataset.id===s.id?" playing":""}">
+      ${s.portada ? `<img class="cover" loading="lazy" src="${esc(s.portada)}" alt="">` : `<div class="cover"></div>`}
+      <div>
+        <p class="title">${esc(s.titulo)}</p>
+        <p class="meta">${[fecha(s.fecha), s.modelo, dur(s.duracion), s.reproducciones!=null?`${s.reproducciones} reproducciones`:""].filter(Boolean).map(esc).join(" · ")}</p>
+        ${s.estilo ? `<p class="tags">${esc(s.estilo)}</p>` : ""}
+      </div>
+      <button class="play" data-i="${i}" ${s.audio?"":"disabled"} aria-label="Reproducir ${esc(s.titulo)}">▶</button>
+      <details>
+        <summary>Letra y prompt</summary>
+        ${s.descripcion ? `<p><strong>Descripción:</strong> ${esc(s.descripcion)}</p>` : ""}
+        ${s.excluidos ? `<p><strong>Estilos excluidos:</strong> ${esc(s.excluidos)}</p>` : ""}
+        <pre>${esc(s.letra || "(sin letra)")}</pre>
+        <p class="links"><a href="${esc(s.url)}" target="_blank" rel="noopener">Abrir en Suno</a>${s.audio?`<a href="${esc(s.audio)}" target="_blank" rel="noopener">MP3</a>`:""}</p>
+      </details>
+    </article>`).join("");
+}
+function play(i){
+  const s = view[i]; if(!s || !s.audio) return;
+  current = i; audio.src = s.audio; audio.dataset.id = s.id;
+  now.textContent = `▶ ${s.titulo}`; audio.play().catch(()=>{});
+  document.querySelectorAll(".song").forEach((el,j)=>el.classList.toggle("playing", j===i));
+}
+list.addEventListener("click", e => { const b = e.target.closest(".play"); if(b) play(+b.dataset.i); });
+audio.addEventListener("ended", () => { for(let j=current+1;j<view.length;j++) if(view[j].audio) return play(j); });
+$("#q").addEventListener("input", render);
+$("#sort").addEventListener("change", render);
+render();
+</script>
+</body>
+</html>

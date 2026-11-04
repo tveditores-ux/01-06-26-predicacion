@@ -51,3 +51,16 @@ with open(out.parent / "indice.csv", "w", newline="", encoding="utf-8-sig") as f
     w = csv.DictWriter(f, fieldnames=rows[0].keys() if rows else ["n"])
     w.writeheader(); w.writerows(rows)
 print(f"{len(rows)} canciones organizadas en {out}")
+
+# --- Reproductor HTML (una sola página con todas las canciones) ---
+datos = [{
+    "id": r["id"], "titulo": r["titulo"], "fecha": r["fecha"], "modelo": r["modelo"],
+    "estilo": r["estilo_tags"], "excluidos": r["estilos_excluidos"], "descripcion": r["descripcion_prompt"],
+    "duracion": r["duracion_seg"], "reproducciones": r["reproducciones"], "url": r["url"],
+    "audio": r["audio"], "portada": r["portada"],
+    "letra": (clips[r["n"] - 1].get("metadata") or {}).get("prompt") or "",
+} for r in rows]
+plantilla = (Path(__file__).parent / "reproductor_plantilla.html").read_text(encoding="utf-8")
+js = json.dumps(datos, ensure_ascii=False).replace("</", "<\\/")
+(out.parent / "reproductor.html").write_text(plantilla.replace("/*__DATOS__*/[]", js), encoding="utf-8")
+print(f"Reproductor: {out.parent / 'reproductor.html'}")
